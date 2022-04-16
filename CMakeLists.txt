@@ -1,5 +1,5 @@
 # Set the minimum version of cmake required to build this project
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.17)
 
 # Set the name and the supported language of the project
 project(cpe553_final_project CUDA)
@@ -20,7 +20,7 @@ link_directories(${GTK3_LIBRARY_DIRS})
 add_definitions(${GTK_CFLAGS_OTHER})
 
 # Add an executable compiled from files:
-add_executable(cpe553_final_project main.cu showtext.h showtext.cpp)
+add_executable(cpe553_final_project main.cu showtext.h showtext.cu)
 
 target_link_libraries(cpe553_final_project ${GTK3_LIBRARIES})
 

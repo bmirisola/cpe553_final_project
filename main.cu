@@ -1,4 +1,3 @@
-#include <iostream>
 #include "gtk/gtk.h"
 #include "showtext.h"
 
