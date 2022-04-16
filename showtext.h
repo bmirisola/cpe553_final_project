@@ -8,8 +8,11 @@
 #ifndef CPE553_FINAL_PROJECT_SHOWTEXT_H
 #define CPE553_FINAL_PROJECT_SHOWTEXT_H
 
-static void destroy(GtkWidget *widget, gpointer data){
-    gtk_main_quit ();
+void createWindow(){
+    GtkWidget* window;
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(window,"delete-event",G_CALLBACK(gtk_main_quit),NULL);
+    gtk_widget_show(window);
 }
 
 #endif //CPE553_FINAL_PROJECT_SHOWTEXT_H

@@ -20,7 +20,7 @@ link_directories(${GTK3_LIBRARY_DIRS})
 add_definitions(${GTK_CFLAGS_OTHER})
 
 # Add an executable compiled from files:
-add_executable(cpe553_final_project main.cu showtext.h)
+add_executable(cpe553_final_project main.cu showtext.h showtext.cpp)
 
 target_link_libraries(cpe553_final_project ${GTK3_LIBRARIES})
 
