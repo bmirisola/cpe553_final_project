@@ -25,7 +25,7 @@ public:
 
     GtkWidget *getWindow();
 
-    void addButton(string text, GtkWidget *window);
+    void addButton(const gchar *text, GtkWidget *window);
 
     void showWindow();
 };
