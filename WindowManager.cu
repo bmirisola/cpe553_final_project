@@ -8,8 +8,11 @@ WindowManager::WindowManager() {
     GtkWidget *mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(mainWindow), "Default");
     gtk_window_set_default_size(GTK_WINDOW(mainWindow), 640, 480);
+    g_signal_connect(mainWindow, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
+
     GtkWidget *grid = gtk_grid_new();
     gtk_container_add (GTK_CONTAINER (mainWindow), grid);
+
     windows.push_back(mainWindow);
 }
 
@@ -17,8 +20,11 @@ WindowManager::WindowManager(const gchar *firstWindowName, int width, int height
     GtkWidget *mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(mainWindow), firstWindowName);
     gtk_window_set_default_size(GTK_WINDOW(mainWindow), width, height);
+    g_signal_connect(mainWindow, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
+
     GtkWidget *grid = gtk_grid_new();
     gtk_container_add (GTK_CONTAINER (mainWindow), grid);
+
     windows.push_back(mainWindow);
 }
 
@@ -39,7 +45,7 @@ void WindowManager::addButton(const gchar *text, GtkWidget *window) {
 }
 
 void WindowManager::showWindow() {
-
+    gtk_widget_show(windows.at(0));
 }
 
 void WindowManager::addWindow(string windowName, int width, int height) {
