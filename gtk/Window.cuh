@@ -11,6 +11,7 @@ class Window {
     GtkWidget *window, *grid;
     const gchar *windowName;
 
+public:
     Window();
     Window(const gchar *windowName, int width, int height);
     ~Window();
