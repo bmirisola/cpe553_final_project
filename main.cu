@@ -1,5 +1,5 @@
 #include "gtk/gtk.h"
-#include "WindowManager.cuh"
+#include "gtk/WindowManager.cuh"
 
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);

@@ -51,3 +51,13 @@ void WindowManager::showWindow() {
 void WindowManager::addWindow(string windowName, int width, int height) {
 
 }
+
+void WindowManager::createMatrix(int rows, int columns) {
+    float x [rows][columns];
+    for(int i = 0; i < rows; i++){
+        for(int j=0; j < columns; j++){
+
+            gtk_grid_attach(GTK_GRID(windows.at(0)), btn_ptr, left, top, 1, 1);
+        }
+    }
+}

@@ -28,6 +28,8 @@ public:
     void addButton(const gchar *text, GtkWidget *window);
 
     void showWindow();
+
+    void createMatrix(int rows, int columns);
 };
 
 
