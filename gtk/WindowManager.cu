@@ -5,34 +5,20 @@
 #include "WindowManager.cuh"
 
 WindowManager::WindowManager() {
-    GtkWidget *mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "Default");
-    gtk_window_set_default_size(GTK_WINDOW(mainWindow), 640, 480);
-    g_signal_connect(mainWindow, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-
-    GtkWidget *grid = gtk_grid_new();
-    gtk_container_add (GTK_CONTAINER (mainWindow), grid);
-
+    Window *mainWindow = new Window();
     windows.push_back(mainWindow);
 }
 
 WindowManager::WindowManager(const gchar *firstWindowName, int width, int height) {
-    GtkWidget *mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), firstWindowName);
-    gtk_window_set_default_size(GTK_WINDOW(mainWindow), width, height);
-    g_signal_connect(mainWindow, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-
-    GtkWidget *grid = gtk_grid_new();
-    gtk_container_add (GTK_CONTAINER (mainWindow), grid);
-
+    Window *mainWindow = new Window(firstWindowName,width,height);
     windows.push_back(mainWindow);
 }
 
 WindowManager::~WindowManager() {
-    for (std::vector<GtkWidget*>::iterator i = windows.begin(); i != windows.end(); ++i) {
+    for (std::vector<Window*>::iterator i = windows.begin(); i != windows.end(); ++i) {
         delete *i;
     }
-    windows.clear(); // not necessary
+    //windows.clear(); // not necessary
 }
 
 GtkWidget *WindowManager::getWindow() {
@@ -41,23 +27,27 @@ GtkWidget *WindowManager::getWindow() {
 
 void WindowManager::addButton(const gchar *text, GtkWidget *window) {
     GtkWidget *btn_ptr = gtk_button_new_with_label(text);
-
 }
 
 void WindowManager::showWindow() {
-    gtk_widget_show(windows.at(0));
+    gtk_widget_show_all(windows.at(0)->getWindow());
 }
 
-void WindowManager::addWindow(string windowName, int width, int height) {
-
+void WindowManager::addWindow(const gchar *windowName, int width, int height) {
+    windows.push_back(new Window(windowName, width, height));
 }
 
 void WindowManager::createMatrix(int rows, int columns) {
     float x [rows][columns];
-    for(int i = 0; i < rows; i++){
-        for(int j=0; j < columns; j++){
-
-            gtk_grid_attach(GTK_GRID(windows.at(0)), btn_ptr, left, top, 1, 1);
+    for(int i = 0; i < rows*10; i+=10){
+        for(int j=0; j < columns*10; j+=10){
+            gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), i, j, 10, 10);
         }
     }
+    //gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), 10, 10, 10, 10);
+    //gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob2"), 0, 10, 10, 10);
+
+
+
+
 }

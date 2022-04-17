@@ -8,11 +8,12 @@
 #include "vector"
 #include "string"
 #include "gtk/gtk.h";
+#include "Window.cuh"
 
 using namespace std;
 
 class WindowManager {
-    vector<GtkWidget *> windows;
+    vector<Window*> windows;
 
 public:
     WindowManager();
@@ -21,7 +22,7 @@ public:
 
     ~WindowManager();
 
-    void addWindow(string windowName, int width, int height);
+    void addWindow(const gchar *windowName, int width, int height);
 
     GtkWidget *getWindow();
 
@@ -30,6 +31,8 @@ public:
     void showWindow();
 
     void createMatrix(int rows, int columns);
+
+
 };
 
 
