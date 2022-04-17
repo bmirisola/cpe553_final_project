@@ -16,6 +16,7 @@ public:
     Window(const gchar *windowName, int width, int height);
     ~Window();
     GtkWidget *getGrid();
+    GtkWidget  *getWindow();
 
 
 };

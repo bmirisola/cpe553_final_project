@@ -28,3 +28,7 @@ Window::~Window() {
 GtkWidget *Window::getGrid() {
     return grid;
 }
+
+GtkWidget *Window::getWindow() {
+    return window;
+}
