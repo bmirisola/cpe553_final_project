@@ -41,7 +41,7 @@ void WindowManager::createMatrix(int rows, int columns) {
     float x [rows][columns];
     for(int i = 0; i < rows*10; i+=10){
         for(int j=0; j < columns*10; j+=10){
-            gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), i, j, 10, 10);
+            gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), j, i, 10, 10);
         }
     }
     //gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), 10, 10, 10, 10);
