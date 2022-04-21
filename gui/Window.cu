@@ -36,3 +36,7 @@ GtkWidget *Window::getGrid() {
 GtkWidget *Window::getWindow() {
     return window;
 }
+
+void Window::addWidget(GtkWidget *widget, int col, int row, int width, int height) {
+    gtk_grid_attach(GTK_GRID(grid), widget, col, row, width, height);
+}

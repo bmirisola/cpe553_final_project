@@ -20,7 +20,7 @@ link_directories(${GTK3_LIBRARY_DIRS})
 add_definitions(${GTK_CFLAGS_OTHER})
 
 # Add an executable compiled from files:
-add_executable(cpe553_final_project main.cu test/window_manager.h test/window_manager.cu gtk/WindowManager.cu gtk/WindowManager.cuh gtk/Window.cu gtk/Window.cuh)
+add_executable(cpe553_final_project main.cu gui/WindowManager.cu gui/WindowManager.cuh gui/Window.cu gui/Window.cuh matrices/kernel.cu matrices/kernel.cuh)
 
 target_link_libraries(cpe553_final_project ${GTK3_LIBRARIES})
 

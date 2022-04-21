@@ -7,15 +7,19 @@
 
 #include "vector"
 #include "string"
-#include "gtk/gtk.h";
+#include "gtk/gtk.h"
 #include "Window.cuh"
+#include "../matrices/kernel.cuh"
+
 
 using namespace std;
 
 class WindowManager {
     vector<Window*> windows;
-
+    GtkWidget *comboBox;
+    char x;
 public:
+
     WindowManager();
 
     WindowManager(const gchar *firstWindowName, int width, int height);
@@ -32,6 +36,9 @@ public:
 
     void createMatrix(int rows, int columns);
 
+    void addCalculationButtons();
+
+    GtkWidget *getComboBox();
 
 };
 

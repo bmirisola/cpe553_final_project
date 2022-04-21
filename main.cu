@@ -1,11 +1,14 @@
 #include "gtk/gtk.h"
-#include "gtk/WindowManager.cuh"
+#include "gui/WindowManager.cuh"
+
+WindowManager* manager;
 
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);
-    WindowManager manager("Matrix Calculator", 1280, 720);
-    manager.createMatrix(5,5);
-    manager.showWindow();
+    manager = new WindowManager("Matrix Calculator", 640, 480);
+    //manager.createMatrix(3,4);
+    manager->addCalculationButtons();
+    manager->showWindow();
     gtk_main();
     return 0;
 }

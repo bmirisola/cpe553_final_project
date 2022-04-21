@@ -41,13 +41,24 @@ void WindowManager::createMatrix(int rows, int columns) {
     float x [rows][columns];
     for(int i = 0; i < rows*10; i+=10){
         for(int j=0; j < columns*10; j+=10){
-            gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), j, i, 10, 10);
+            gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_entry_new(), j, i, 2, 2);
         }
     }
-    //gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob"), 10, 10, 10, 10);
-    //gtk_grid_attach(GTK_GRID(windows.at(0)->getGrid()), gtk_button_new_with_label("bob2"), 0, 10, 10, 10);
 
+}
 
+void WindowManager::addCalculationButtons() {
+    GtkWidget *comboBox = gtk_combo_box_text_new();
+    GtkWidget *calculateButton = gtk_button_new_with_label("Calculate");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "+");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "-");
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "*");
+    windows.at(0)->addWidget(comboBox, 0, 0, 1, 1);
+    windows.at(0)->addWidget(calculateButton, 1,0,1,1);
+    g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations),gtk_combo_box_text_get_active_text(reinterpret_cast<GtkComboBoxText *>(comboBox)));
 
+}
 
+GtkWidget *WindowManager::getComboBox() {
+    return comboBox;
 }
