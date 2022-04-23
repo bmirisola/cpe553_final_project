@@ -43,18 +43,20 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     //matrixMultiplication()
     gchar* b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
 
-    switch (b[0]) {
-        case '*':
-            //matrixMultiplication();
-            break;
-        case '+':
-            //matrixAddition();
-            break;
-        case '-':
-            //matrixSubtraction();
-            break;
-        default:
-            g_print("Remember to pick something");
+    if(b == NULL) {
+        g_print("Remember to pick an operation");
+    }
+
+    else if(g_content_type_equals(b,"*")) {
+        
+    }
+
+    else if(g_content_type_equals(b,"+")) {
+        g_print("Done -");
+    }
+
+    else if(g_content_type_equals(b,"-")) {
+        g_print("Done +");
     }
 
 }
