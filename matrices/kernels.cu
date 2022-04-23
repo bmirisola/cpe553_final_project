@@ -1,7 +1,7 @@
 #include <math.h>
 #include <iostream>
 #include "cuda_runtime.h"
-#include "kernel.cuh"
+#include "kernels.cuh"
 #include <stdlib.h>
 
 using namespace std;
@@ -42,6 +42,19 @@ void matrixMultiplication(float *A, float *B, float *C, int N){
 void matrixOperations(GtkWidget *widget, gpointer data) {
     //matrixMultiplication()
     gchar* b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
-    g_print("%s", b);
+
+    switch (b[0]) {
+        case '*':
+            //matrixMultiplication();
+            break;
+        case '+':
+            //matrixAddition();
+            break;
+        case '-':
+            //matrixSubtraction();
+            break;
+        default:
+            g_print("Remember to pick something");
+    }
 
 }

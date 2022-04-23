@@ -9,7 +9,7 @@
 #include "string"
 #include "gtk/gtk.h"
 #include "Window.cuh"
-#include "../matrices/kernel.cuh"
+#include "../matrices/kernels.cuh"
 
 
 using namespace std;
