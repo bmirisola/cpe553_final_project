@@ -40,5 +40,8 @@ void matrixMultiplication(float *A, float *B, float *C, int N){
 }
 
 void matrixOperations(GtkWidget *widget, gpointer data) {
+    //matrixMultiplication()
+    gchar* b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
+    g_print("%s", b);
 
 }
