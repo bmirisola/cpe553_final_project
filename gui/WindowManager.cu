@@ -55,7 +55,8 @@ void WindowManager::addCalculationButtons() {
     gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "*");
     windows.at(0)->addWidget(comboBox, 0, 0, 1, 1);
     windows.at(0)->addWidget(calculateButton, 1,0,1,1);
-    g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations),gtk_combo_box_text_get_active_text(reinterpret_cast<GtkComboBoxText *>(comboBox)));
+    g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations),comboBox);
+
 
 }
 
