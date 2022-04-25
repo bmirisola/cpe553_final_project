@@ -8,6 +8,14 @@
 template <class T>
 class dev_array
 {
+    T* start_;
+    T* end_;
+    // allocate memory on the device
+    void allocate(size_t size)
+    {
+        cudaError_t result = cudaMalloc((void**)&start_, size * sizeof(T));
+        end_ = start_ + size;
+    }
 // public functions
 public:
     explicit dev_array()
@@ -16,20 +24,8 @@ public:
     {}
 
     // constructor
-    explicit dev_array(size_t size)
+    dev_array(size_t size)
     {
-        allocate(size);
-    }
-    // destructor
-    ~dev_array()
-    {
-        free();
-    }
-
-    // resize the vector
-    void resize(size_t size)
-    {
-        free();
         allocate(size);
     }
 
@@ -37,17 +33,6 @@ public:
     size_t getSize() const
     {
         return end_ - start_;
-    }
-
-    // get data
-    const T* getData() const
-    {
-        return start_;
-    }
-
-    T* getData()
-    {
-        return start_;
     }
 
     // set
@@ -70,34 +55,6 @@ public:
             throw std::runtime_error("failed to copy to host memory");
         }
     }
-
-
-// private functions
-private:
-    // allocate memory on the device
-    void allocate(size_t size)
-    {
-        cudaError_t result = cudaMalloc((void**)&start_, size * sizeof(T));
-        if (result != cudaSuccess)
-        {
-            start_ = end_ = 0;
-            throw std::runtime_error("failed to allocate device memory");
-        }
-        end_ = start_ + size;
-    }
-
-    // free memory on the device
-    void free()
-    {
-        if (start_ != 0)
-        {
-            cudaFree(start_);
-            start_ = end_ = 0;
-        }
-    }
-
-    T* start_;
-    T* end_;
 };
 
 #endif

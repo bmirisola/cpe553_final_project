@@ -39,13 +39,12 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     fstream file ("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/matrices.csv", ios::in);
 
     string line, word;
-    vector<string> row;
-    vector<vector<string>> matrix1;
-    vector<vector<string>> matrix2;
+    vector<string> matrix1;
+    vector<string> matrix2;
+    vector<string> ccc;
 
     if(file.is_open()){
         while(getline(file,line)){
-            row.clear();
 
             stringstream s(line);
 
@@ -53,22 +52,28 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
                 if(word == "op"){
                     isFirstMatrixDone = true;
                 }
-                if(word != "=====" && word != "op" ) {
-                    row.push_back(word);
+                if(word != "=====" && word != "op" && !isFirstMatrixDone) {
+                    matrix1.push_back(word);
+                }
+                else if(word != "=====" && word != "op" && isFirstMatrixDone){
+                    matrix2.push_back(word);
                 }
             }
 
             if(!isFirstMatrixDone){
-                matrix1.push_back(row);
                 size++;
-            }
-            else if (!row.empty()) {
-                matrix2.push_back(row);
             }
         }
     }
+    size = pow(size,2);
+    for(int i = 0; i<size; i++){
+        cout << matrix2[i] << " ";
+    }
 
-    
+    dev_array<double> d_A(size*size);
+    dev_array<double> d_B(size*size);
+    dev_array<double> d_C(size*size);
+
     if(b == NULL) {
         g_print("Remember to pick an operation");
     }
