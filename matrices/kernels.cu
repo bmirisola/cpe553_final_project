@@ -8,7 +8,7 @@ __global__ void matrixMultiplicationKernel(double *A, double *B, double *C, int 
     int ROW = blockIdx.y * blockDim.y + threadIdx.y;
     int COL = blockIdx.x * blockDim.x + threadIdx.x;
 
-    float tmpSum = 0;
+    double tmpSum = 0;
 
     if (ROW < N && COL < N) {
         // each thread computes one element of the block sub-matrix
@@ -19,6 +19,27 @@ __global__ void matrixMultiplicationKernel(double *A, double *B, double *C, int 
     C[ROW * N + COL] = tmpSum;
 }
 
+__global__ void matrixAdditionKernel(double *A, double *B, double *C, int N) {
+    int index = threadIdx.x + blockIdx.x * blockDim.x;
+    int stride = blockDim.x * gridDim.x;
+
+    // each thread computes one element of the block sub-matrix
+    for (int i = index; i < N; i += stride) {
+        C[i] = A[i] + B[i];
+    }
+
+
+}
+
+__global__ void matrixSubtractionKernel(double *A, double *B, double *C, int N) {
+    int index = threadIdx.x + blockIdx.x * blockDim.x;
+    int stride = blockDim.x * gridDim.x;
+
+    // each thread computes one element of the block sub-matrix
+    for (int i = index; i < N; i += stride) {
+        C[i] = A[i] - B[i];
+    }
+}
 
 void matrixMultiplication(double *A, double *B, double *C, int N) {
 
@@ -30,8 +51,21 @@ void matrixMultiplication(double *A, double *B, double *C, int N) {
     matrixMultiplicationKernel<<<blocksPerGrid, threadsPerBlock>>>(A, B, C, N);
 }
 
+void matrixAddition(double *A, double *B, double *C, int N) {
+    dim3 threadsPerBlock(N, N);
+    dim3 blocksPerGrid(1, 1);
+
+    matrixAdditionKernel<<<1, threadsPerBlock>>>(A, B, C, N);
+}
+
+void matrixSubtraction(double *A, double *B, double *C, int N) {
+    dim3 threadsPerBlock(N, N);
+    dim3 blocksPerGrid(256, 256);
+
+    matrixSubtractionKernel<<<blocksPerGrid, threadsPerBlock>>>(A, B, C, N);
+}
+
 void matrixOperations(GtkWidget *widget, gpointer data) {
-    //matrixMultiplication()
     gchar *b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
     int size = 0;
     bool isFirstMatrixDone, isSecondMatrixDone = false;
@@ -70,12 +104,12 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     vector<double> h_B(size);
     vector<double> h_C(size);
 
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++) {
         h_A[i] = stoi(matrix1[i]);
         h_B[i] = stoi(matrix2[i]);
     }
 
-    dev_array<double> d_A( size);
+    dev_array<double> d_A(size);
     dev_array<double> d_B(size);
     dev_array<double> d_C(size);
 
@@ -85,19 +119,25 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     if (b == NULL) {
         g_print("Remember to pick an operation");
     } else if (g_content_type_equals(b, "*")) {
-        matrixMultiplication(d_A.getData(), d_B.getData(), d_C.getData(), (int)sqrt(size));
+        matrixMultiplication(d_A.getData(), d_B.getData(), d_C.getData(), (int) sqrt(size));
         cudaDeviceSynchronize();
 
         d_C.copyToHost(&h_C[0], size);
         cudaDeviceSynchronize();
-
-        for (int i = 0; i < size; i++){
-            g_print("%f ", h_C[i]);
-        }
     } else if (g_content_type_equals(b, "+")) {
-        g_print("Done +");
-    } else if (g_content_type_equals(b, "-")) {
-        g_print("Done -");
-    }
+        matrixAddition(d_A.getData(), d_B.getData(), d_C.getData(), (int) (size));
+        cudaDeviceSynchronize();
 
+        d_C.copyToHost(&h_C[0], size);
+        cudaDeviceSynchronize();
+    } else if (g_content_type_equals(b, "-")) {
+        matrixSubtraction(d_A.getData(), d_B.getData(), d_C.getData(), (int) size);
+        cudaDeviceSynchronize();
+
+        d_C.copyToHost(&h_C[0], size);
+        cudaDeviceSynchronize();
+    }
+    for (int i = 0; i < size; i++) {
+        g_print("%f ", h_C[i]);
+    }
 }

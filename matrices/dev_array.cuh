@@ -26,6 +26,13 @@ public:
         allocate(size);
     }
 
+    ~dev_array() {
+        if (start_ != 0) {
+            cudaFree(start_);
+            start_ = end_ = 0;
+        }
+    }
+
     // copyToHost the size of the array
     size_t getSize() const {
         return end_ - start_;
@@ -44,7 +51,7 @@ public:
         cudaMemcpy(dest, start_, min * sizeof(T), cudaMemcpyDeviceToHost);
     }
 
-    T* getData(){
+    T *getData() {
         return start_;
     }
 };
