@@ -1,7 +1,7 @@
 #include "gtk/gtk.h"
 #include "gui/WindowManager.cuh"
 
-WindowManager* manager;
+WindowManager *manager;
 
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);

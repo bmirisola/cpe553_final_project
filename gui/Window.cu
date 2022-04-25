@@ -11,17 +11,17 @@ Window::Window() : windowName("Default") {
     g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 
     grid = gtk_grid_new();
-    gtk_container_add (GTK_CONTAINER (window), grid);
+    gtk_container_add(GTK_CONTAINER (window), grid);
 }
 
-Window::Window(const gchar *windowName, int width, int height): windowName(windowName) {
+Window::Window(const gchar *windowName, int width, int height) : windowName(windowName) {
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), windowName);
     gtk_window_set_default_size(GTK_WINDOW(window), width, height);
     g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 
     grid = gtk_grid_new();
-    gtk_container_add (GTK_CONTAINER (window), grid);
+    gtk_container_add(GTK_CONTAINER (window), grid);
 }
 
 Window::~Window() {

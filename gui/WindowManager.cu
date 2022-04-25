@@ -10,12 +10,12 @@ WindowManager::WindowManager() {
 }
 
 WindowManager::WindowManager(const gchar *firstWindowName, int width, int height) {
-    Window *mainWindow = new Window(firstWindowName,width,height);
+    Window *mainWindow = new Window(firstWindowName, width, height);
     windows.push_back(mainWindow);
 }
 
 WindowManager::~WindowManager() {
-    for (std::vector<Window*>::iterator i = windows.begin(); i != windows.end(); ++i) {
+    for (std::vector<Window *>::iterator i = windows.begin(); i != windows.end(); ++i) {
         delete *i;
     }
     //windows.clear(); // not necessary
@@ -36,8 +36,8 @@ void WindowManager::addCalculationButtons() {
     gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "-");
     gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(comboBox), 0, "*");
     windows.at(0)->addWidget(comboBox, 0, 0, 1, 1);
-    windows.at(0)->addWidget(calculateButton, 1,0,1,1);
-    g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations),comboBox);
+    windows.at(0)->addWidget(calculateButton, 1, 0, 1, 1);
+    g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations), comboBox);
 
 
 }

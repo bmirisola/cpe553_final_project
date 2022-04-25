@@ -15,7 +15,7 @@
 using namespace std;
 
 class WindowManager {
-    vector<Window*> windows;
+    vector<Window *> windows;
     GtkWidget *comboBox;
     char x;
 public:

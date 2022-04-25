@@ -13,15 +13,20 @@ using namespace std;
 class Window {
     GtkWidget *window, *grid;
     const gchar *windowName;
-    vector<GtkWidget*> widgets;
+    vector<GtkWidget *> widgets;
 
 
 public:
     Window();
+
     Window(const gchar *windowName, int width, int height);
+
     ~Window();
+
     GtkWidget *getGrid();
-    GtkWidget  *getWindow();
+
+    GtkWidget *getWindow();
+
     void addWidget(GtkWidget *widget, int col, int row, int width, int height);
 
 
