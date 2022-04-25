@@ -48,6 +48,10 @@ public:
             throw std::runtime_error("failed to copy to host memory");
         }
     }
+
+    T* getData(){
+        return start_;
+    }
 };
 
 #endif

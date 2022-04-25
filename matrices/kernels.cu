@@ -3,7 +3,7 @@
 
 using namespace std;
 
-__global__ void matrixMultiplicationKernel(float *A, float *B, float *C, int N) {
+__global__ void matrixMultiplicationKernel(double *A, double *B, double *C, int N) {
 
     int ROW = blockIdx.y * blockDim.y + threadIdx.y;
     int COL = blockIdx.x * blockDim.x + threadIdx.x;
@@ -20,7 +20,7 @@ __global__ void matrixMultiplicationKernel(float *A, float *B, float *C, int N) 
 }
 
 
-void matrixMultiplication(float *A, float *B, float *C, int N) {
+void matrixMultiplication(double *A, double *B, double *C, int N) {
 
     // declare the number of blocks per grid and the number of threads per block
     // use 1 to 512 threads per block
@@ -66,14 +66,34 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     }
     size = pow(size, 2);
 
-    dev_array<double> d_A(size * size);
-    dev_array<double> d_B(size * size);
-    dev_array<double> d_C(size * size);
+    vector<double> h_A(size);
+    vector<double> h_B(size);
+    vector<double> h_C(size);
+
+    for (int i = 0; i < size; i++){
+        h_A[i] = stoi(matrix1[i]);
+        h_B[i] = stoi(matrix2[i]);
+    }
+
+    dev_array<double> d_A( size);
+    dev_array<double> d_B(size);
+    dev_array<double> d_C(size);
+
+    d_A.set(&h_A[0], size);
+    d_B.set(&h_B[0], size);
 
     if (b == NULL) {
         g_print("Remember to pick an operation");
     } else if (g_content_type_equals(b, "*")) {
+        matrixMultiplication(d_A.getData(), d_B.getData(), d_C.getData(), (int)sqrt(size));
+        cudaDeviceSynchronize();
 
+        d_C.get(&h_C[0], size);
+        cudaDeviceSynchronize();
+
+        for (int i = 0; i < size; i++){
+            g_print("%f ", h_C[i]);
+        }
     } else if (g_content_type_equals(b, "+")) {
         g_print("Done +");
     } else if (g_content_type_equals(b, "-")) {
