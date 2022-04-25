@@ -12,7 +12,7 @@ class dev_array {
 
     // allocate memory on the device
     void allocate(size_t size) {
-        cudaError_t result = cudaMalloc((void **) &start_, size * sizeof(T));
+        cudaMalloc((void **) &start_, size * sizeof(T));
         end_ = start_ + size;
     }
 // public functions
@@ -26,7 +26,7 @@ public:
         allocate(size);
     }
 
-    // get the size of the array
+    // copyToHost the size of the array
     size_t getSize() const {
         return end_ - start_;
     }
@@ -34,19 +34,14 @@ public:
     // set
     void set(const T *src, size_t size) {
         size_t min = std::min(size, getSize());
-        cudaError_t result = cudaMemcpy(start_, src, min * sizeof(T), cudaMemcpyHostToDevice);
-        if (result != cudaSuccess) {
-            throw std::runtime_error("failed to copy to device memory");
-        }
+        cudaMemcpy(start_, src, min * sizeof(T), cudaMemcpyHostToDevice);
+
     }
 
-    // get
-    void get(T *dest, size_t size) {
+    // copyToHost
+    void copyToHost(T *dest, size_t size) {
         size_t min = std::min(size, getSize());
-        cudaError_t result = cudaMemcpy(dest, start_, min * sizeof(T), cudaMemcpyDeviceToHost);
-        if (result != cudaSuccess) {
-            throw std::runtime_error("failed to copy to host memory");
-        }
+        cudaMemcpy(dest, start_, min * sizeof(T), cudaMemcpyDeviceToHost);
     }
 
     T* getData(){

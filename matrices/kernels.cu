@@ -88,7 +88,7 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
         matrixMultiplication(d_A.getData(), d_B.getData(), d_C.getData(), (int)sqrt(size));
         cudaDeviceSynchronize();
 
-        d_C.get(&h_C[0], size);
+        d_C.copyToHost(&h_C[0], size);
         cudaDeviceSynchronize();
 
         for (int i = 0; i < size; i++){
