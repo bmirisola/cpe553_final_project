@@ -9,6 +9,8 @@ int main(int argc, char *argv[]) {
     //manager.createMatrix(3,4);
     manager->addCalculationButtons();
     manager->showWindow();
+
+
     gtk_main();
     return 0;
 }

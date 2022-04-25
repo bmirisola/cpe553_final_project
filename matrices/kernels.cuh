@@ -3,6 +3,13 @@
 
 #include "gtk/gtk.h"
 #include "string"
+#include <math.h>
+#include <iostream>
+#include "cuda_runtime.h"
+#include <cstdlib>
+#include <vector>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
