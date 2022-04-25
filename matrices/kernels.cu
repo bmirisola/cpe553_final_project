@@ -137,7 +137,20 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
         d_C.copyToHost(&h_C[0], size);
         cudaDeviceSynchronize();
     }
-    for (int i = 0; i < size; i++) {
-        g_print("%f ", h_C[i]);
+
+    file.close();
+    if(!h_C.empty()){
+        int n = (int)sqrt(size);
+        ofstream resultFile ("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/result.txt");
+        if(resultFile.is_open()){
+            for (int i = 0; i < n; i++){
+                for(int j = 0; j < n; j++){
+                    resultFile << h_C[i*n + j] << " ";
+                }
+                resultFile << "\n";
+            }
+        }
+
+        resultFile.close();
     }
 }
