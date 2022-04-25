@@ -21,10 +21,6 @@ WindowManager::~WindowManager() {
     //windows.clear(); // not necessary
 }
 
-GtkWidget *WindowManager::getWindow() {
-    return nullptr;
-}
-
 void WindowManager::showWindow() {
     gtk_widget_show_all(windows.at(0)->getWindow());
 }
@@ -38,8 +34,6 @@ void WindowManager::addCalculationButtons() {
     windows.at(0)->addWidget(comboBox, 0, 0, 1, 1);
     windows.at(0)->addWidget(calculateButton, 1, 0, 1, 1);
     g_signal_connect(G_OBJECT(calculateButton), "clicked", G_CALLBACK(matrixOperations), comboBox);
-
-
 }
 
 GtkWidget *WindowManager::getComboBox() {

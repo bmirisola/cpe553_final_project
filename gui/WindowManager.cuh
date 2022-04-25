@@ -17,7 +17,6 @@ using namespace std;
 class WindowManager {
     vector<Window *> windows;
     GtkWidget *comboBox;
-    char x;
 public:
 
     WindowManager();
@@ -26,21 +25,14 @@ public:
 
     ~WindowManager();
 
-    void addWindow(const gchar *windowName, int width, int height);
-
     GtkWidget *getWindow();
 
-    void addButton(const gchar *text, GtkWidget *window);
-
     void showWindow();
-
-    void createMatrix(int rows, int columns);
 
     void addCalculationButtons();
 
     GtkWidget *getComboBox();
 
 };
-
 
 #endif //CPE553_FINAL_PROJECT_WINDOWMANAGER_CUH

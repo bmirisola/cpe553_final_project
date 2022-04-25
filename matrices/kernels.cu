@@ -1,6 +1,5 @@
 #include "kernels.cuh"
 
-
 using namespace std;
 
 __global__ void matrixMultiplicationKernel(double *A, double *B, double *C, int N) {
@@ -139,13 +138,13 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
     }
 
     file.close();
-    if(!h_C.empty()){
-        int n = (int)sqrt(size);
-        ofstream resultFile ("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/result.txt");
-        if(resultFile.is_open()){
-            for (int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    resultFile << h_C[i*n + j] << " ";
+    if (!h_C.empty()) {
+        int n = (int) sqrt(size);
+        ofstream resultFile("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/result.txt");
+        if (resultFile.is_open()) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    resultFile << h_C[i * n + j] << " ";
                 }
                 resultFile << "\n";
             }

@@ -8,8 +8,6 @@ int main(int argc, char *argv[]) {
     manager = new WindowManager("Matrix Calculator", 250, 80);
     manager->addCalculationButtons();
     manager->showWindow();
-
-
     gtk_main();
     return 0;
 }
