@@ -19,6 +19,7 @@ __global__ void matrixMultiplicationKernel(double *A, double *B, double *C, int 
 }
 
 __global__ void matrixAdditionKernel(double *A, double *B, double *C, int N) {
+    // Grid stride loop
     int index = threadIdx.x + blockIdx.x * blockDim.x;
     int stride = blockDim.x * gridDim.x;
 
@@ -31,6 +32,8 @@ __global__ void matrixAdditionKernel(double *A, double *B, double *C, int N) {
 }
 
 __global__ void matrixSubtractionKernel(double *A, double *B, double *C, int N) {
+
+    // Grid stride loop
     int index = threadIdx.x + blockIdx.x * blockDim.x;
     int stride = blockDim.x * gridDim.x;
 
@@ -65,16 +68,28 @@ void matrixSubtraction(double *A, double *B, double *C, int N) {
 }
 
 void matrixOperations(GtkWidget *widget, gpointer data) {
-    gchar *b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
-    int size = 0;
-    bool isFirstMatrixDone, isSecondMatrixDone = false;
 
+    // Parse combobox text
+    gchar *b = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
+    int size = 0; //set size of matrix to 0
+    bool isFirstMatrixDone = false; // boolean to check whether the first matrix has been parsed from file
+
+    //File taht holds matrices
     fstream file("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/matrices.csv", ios::in);
 
+    // variables to hold csv file values
     string line, word;
     vector<string> matrix1;
     vector<string> matrix2;
-    vector<string> ccc;
+
+    /*
+     * If statement parses preconstructed csv file for matrices
+     * open file previously created
+     * read line by line
+     * convert line to string stream
+     * add each number to the first matrix until string is read
+     * Start adding numbers to second matrix
+     */
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -93,27 +108,41 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
             }
 
             if (!isFirstMatrixDone) {
+                //Only add to size during first matrix
                 size++;
             }
         }
     }
+
+    //square size to make vector have rows and columns of size size
     size = pow(size, 2);
 
+    //Create host matrices
     vector<double> h_A(size);
     vector<double> h_B(size);
     vector<double> h_C(size);
 
+    //Populate host matrices with values from parsed matrices and convert to double
     for (int i = 0; i < size; i++) {
-        h_A[i] = stoi(matrix1[i]);
-        h_B[i] = stoi(matrix2[i]);
+        h_A[i] = stod(matrix1[i]);
+        h_B[i] = stod(matrix2[i]);
     }
 
+    //Create dev arrays to hold vectors and manage gpu memory
     dev_array<double> d_A(size);
     dev_array<double> d_B(size);
     dev_array<double> d_C(size);
 
+    //Set matrices to device
     d_A.set(&h_A[0], size);
     d_B.set(&h_B[0], size);
+
+    /*
+     * Checks value of b for operation
+     * Launches appropriate gpu kernel
+     * Writes to result array so cpu can read it
+     * Synchronizes with the main thread so the program does not conclude before kernel execution
+     */
 
     if (b == NULL) {
         g_print("Remember to pick an operation");
@@ -137,7 +166,10 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
         cudaDeviceSynchronize();
     }
 
+    //Close file and free recource
     file.close();
+
+    // Write result to txt file
     if (!h_C.empty()) {
         int n = (int) sqrt(size);
         ofstream resultFile("/home/bmirisola/CLionProjects/cpe553/cpe553_final_project/matrices/result.txt");
@@ -150,6 +182,7 @@ void matrixOperations(GtkWidget *widget, gpointer data) {
             }
         }
 
+        //Close file and free recource
         resultFile.close();
     }
 }
